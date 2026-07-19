@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -25,7 +24,7 @@ import jakarta.ws.rs.core.MediaType;
 
 
 @Path("/")
-public class SmarthomeWakeup {
+public class SmarthomeEndpoint {
 
     @ConfigProperty(name = "smarthome.wakeup.endpoints")
     String endpoints;
