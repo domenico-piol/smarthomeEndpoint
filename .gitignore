@@ -27,6 +27,7 @@
 **/.classpath
 
 # Maven
+target/
 */target/**
 
 # Mac
