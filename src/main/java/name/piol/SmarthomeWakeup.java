@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -22,6 +23,7 @@ import jakarta.ws.rs.core.MediaType;
 //      http --form POST http://localhost:8080/smarthome/wakeup/MYHOST
 //
 
+
 @Path("/")
 public class SmarthomeWakeup {
 
@@ -29,6 +31,18 @@ public class SmarthomeWakeup {
     String endpoints;
 
     Map<String, String> endpointsMap = new HashMap<String,String>();
+
+
+    private void initializeConfig() {
+        String[] strArray = endpoints.split(",");
+
+        for (int i = 0; i < strArray.length; i++) {
+            String data = strArray[i];
+            String[] keyValue = data.split("=");
+            endpointsMap.put(keyValue[0], keyValue[1]);
+        }
+    }
+
 
 
     @POST
@@ -54,7 +68,6 @@ public class SmarthomeWakeup {
             while ((line=eReader.readLine()) != null) {
                 System.out.println(line);   
             }
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,13 +84,104 @@ public class SmarthomeWakeup {
         return "Hosts: " + endpointsMap.toString();
     }
 
-    private void initializeConfig() {
-        String[] strArray = endpoints.split(",");
 
-        for (int i = 0; i < strArray.length; i++) {
-            String data = strArray[i];
-            String[] keyValue = data.split("=");
-            endpointsMap.put(keyValue[0], keyValue[1]);
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/smarthome/homelab/pushpowerbutton")
+    public String homelabPushPowerButton() {
+        initializeConfig();
+
+        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY POST https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=PushPowerButton";
+        
+        try {
+            String[] cmd = {"/bin/bash", "-c", HTTPIE_CMD};
+            Process proc = Runtime.getRuntime().exec(cmd);
+            proc.waitFor();
+
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            BufferedReader eReader = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            
+            String line;
+            
+            while ((line=reader.readLine()) != null) {
+                System.out.println(line);   
+            }
+            
+            while ((line=eReader.readLine()) != null) {
+                System.out.println(line);   
+            } 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return "POWER BUTTON on HOMELAB pressed (powering down gracefully)";
     }
+
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/smarthome/homelab/poweron")
+    public String homelabPowerOn() {
+        initializeConfig();
+
+        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY POST https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=On";
+        
+        try {
+            String[] cmd = {"/bin/bash", "-c", HTTPIE_CMD};
+            Process proc = Runtime.getRuntime().exec(cmd);
+            proc.waitFor();
+
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            BufferedReader eReader = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            
+            String line;
+            
+            while ((line=reader.readLine()) != null) {
+                System.out.println(line);   
+            }
+            
+            while ((line=eReader.readLine()) != null) {
+                System.out.println(line);   
+            } 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "HOMELAB powering on";
+    }
+
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/smarthome/homelab/powerstate")
+    public String homelabGetPowerState() {
+        initializeConfig();
+
+        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin --no-stream GET https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/ | jq '.PowerState'";
+        String state = "UNKNOWN";
+        
+        try {
+            String[] cmd = {"/bin/bash", "-c", HTTPIE_CMD};
+            Process proc = Runtime.getRuntime().exec(cmd);
+
+            proc.waitFor();
+
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            BufferedReader eReader = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            
+            String line = "";
+            
+            while ((line = reader.readLine()) != null) {
+                state = line;
+            }
+            
+            while ((line = eReader.readLine()) != null) {
+                System.out.println(line);   
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "HOMELAB power state is: " + state;
+    }
+
 }
