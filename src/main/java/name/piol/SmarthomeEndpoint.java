@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 
 //
 // Start the container with:  
-//      podman run -d --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' localhost/smarthome-endpoint:v1
+//      podman run -d --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' --add-host=ilo-dl360-gen8.piol.local:192.168.1.15 localhost/smarthome-endpoint:v2    
 //
 // Testing with HTTPie commandline:  
 //      http --form POST http://localhost:8080/smarthome/wakeup/MYHOST
