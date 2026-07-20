@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 
 //
 // Start the container with:  
-//      podman run -d --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' --add-host=ilo-dl360-gen8.piol.local:192.168.1.15 localhost/smarthome-endpoint:v2    
+//      podman run -d --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' localhost/smarthome-endpoint:v2    
 //
 // Testing with HTTPie commandline:  
 //      http --form POST http://localhost:8080/smarthome/wakeup/MYHOST
@@ -90,7 +90,7 @@ public class SmarthomeEndpoint {
     public String homelabPushPowerButton() {
         initializeConfig();
 
-        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin POST https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=PushPowerButton";
+        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin POST https://192.168.1.15/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=PushPowerButton";
         
         try {
             String[] cmd = {"/bin/bash", "-c", HTTPIE_CMD};
@@ -122,7 +122,7 @@ public class SmarthomeEndpoint {
     public String homelabPowerOn() {
         initializeConfig();
 
-        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin POST https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=On";
+        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin POST https://192.168.1.15/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=On";
         
         try {
             String[] cmd = {"/bin/bash", "-c", HTTPIE_CMD};
@@ -155,7 +155,7 @@ public class SmarthomeEndpoint {
     public String homelabGetPowerState() {
         initializeConfig();
 
-        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin --no-stream GET https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/ | jq '.PowerState'";
+        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin --no-stream GET https://192.168.1.15/redfish/v1/Systems/1/ | jq '.PowerState'";
         String state = "UNKNOWN";
         
         try {
