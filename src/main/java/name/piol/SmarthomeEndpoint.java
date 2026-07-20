@@ -122,7 +122,7 @@ public class SmarthomeEndpoint {
     public String homelabPowerOn() {
         initializeConfig();
 
-        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY POST https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=On";
+        String HTTPIE_CMD = "https --verify=no -a Administrator:Y5KK8KFY --ignore-stdin POST https://ilo-dl360-gen8.piol.local/redfish/v1/Systems/1/Actions/ComputerSystem.Reset/ ResetType=On";
         
         try {
             String[] cmd = {"/bin/bash", "-c", HTTPIE_CMD};
