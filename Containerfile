@@ -1,6 +1,6 @@
 FROM fedora-minimal:latest
 
-RUN dnf install wol -y
+RUN dnf install wol httpie jq -y
 
 WORKDIR /app/
 COPY target/smarthomeEndpoint*-runner /app/smarthomeEndpoint
