@@ -1,0 +1,11 @@
+services:
+  smarthome-endpoint:
+    image: domenicopiol/smarthome-endpoint:latest
+    container_name: smarthome-endpoint
+    ports:
+      - "8080:8080"
+    environment:
+      - smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2'
+      - smarthome.homelab.ilopwd='MYILOPASSWD'
+    network_mode: host
+    restart: on-failure

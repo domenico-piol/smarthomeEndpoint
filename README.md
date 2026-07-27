@@ -19,7 +19,7 @@ podman build -t smarthome-endpoint:v2 .
 Run the container in Podman:
 
 ```
-podman run -d --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' -e smarthome.homelab.ilopwd='MYILOPASSWD' localhost/smarthome-endpoint:v2
+podman run -d --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' -e smarthome.homelab.ilopwd='MYILOPASSWD' localhost/smarthome-endpoint:v3
 ```
 
 ### Access the REST endpoints
