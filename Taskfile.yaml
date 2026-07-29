@@ -11,8 +11,8 @@ tasks:
         desc: Print a greeting message
         cmds:
             - echo "Taskfile for {{.GREETING}}"
-            - echo "    Usage - task <taskname>"
-            - echo "    Valid tasks - build, create-image, down, run, cleanall"
+            - 'echo "    Usage: task <taskname>"'
+            - 'echo "    Valid tasks: build, create-image, down, run, cleanall"'
         silent: true
 
     build:
@@ -42,4 +42,5 @@ tasks:
     
     cleanall:
         cmds:
+            - mvn clean
             - podman rmi --all
