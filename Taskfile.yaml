@@ -5,14 +5,14 @@ version: '3'
 vars:
     GREETING: smarthomeEndpoint
     IMAGE_VERSION: v3
-    ILOPWD: '{{.ILOPWD | default "MYILOPASSWD"}}'
 
 tasks:
     default:
         desc: Print a greeting message
         cmds:
             - echo "Taskfile for {{.GREETING}}"
-            - echo "    Usage - task <taskname> [ILOPWD=<your ilopwd>]"
+            - echo "    Usage - task <taskname>"
+            - echo "    Valid tasks - build, create-image, down, run, cleanall"
         silent: true
 
     build:
