@@ -33,3 +33,6 @@ target/
 # Mac
 **/Icon?
 **/.DS_Store
+
+# Podman compose .env file
+**/.env
