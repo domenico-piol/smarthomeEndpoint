@@ -28,7 +28,6 @@ tasks:
     
     down:
         cmds:
-#            - podman compose -f compose.yaml down  
             - podman compose -f compose.yaml down
             - echo
             - podman ps
@@ -36,7 +35,6 @@ tasks:
             
     run:
         cmds:
- #           - podman run -d --rm --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' -e smarthome.homelab.ilopwd='{{.ILOPWD}}' domenicopiol/smarthome-endpoint:{{.IMAGE_VERSION}}
             - podman compose -f compose.yaml up -d
             - echo
             - podman ps -a
