@@ -5,9 +5,7 @@ version: '3'
 vars:
     GREETING: smarthomeEndpoint
     IMAGE_VERSION: v3
-    ILOPWD: 
-        value: '{{.ILOPWD | default "MYILOPASSWD"}}'
-        secret: true
+    ILOPWD: '{{.ILOPWD | default "MYILOPASSWD"}}'
 
 tasks:
     default:
