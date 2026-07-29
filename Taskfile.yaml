@@ -17,21 +17,24 @@ tasks:
     
     create-image:
         cmds:
-            - podman build -t smarthome-endpoint:{{.IMAGE_VERSION}} .
+            - podman build -t domenicopiol/smarthome-endpoint:{{.IMAGE_VERSION}} .
+            - podman tag domenicopiol/smarthome-endpoint:{{.IMAGE_VERSION}} domenicopiol/smarthome-endpoint:latest
         silent: true
     
     stop:
         cmds:
-            - podman stop smarthome-endpoint
+#            - podman compose -f compose.yaml down  
+            - podman compose -f compose.yaml up -d
             - echo
             - podman ps
         silent: true
             
     run:
         cmds:
-            - podman run -d --rm --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' -e smarthome.homelab.ilopwd='{{.ILOPWD}}' localhost/smarthome-endpoint:{{.IMAGE_VERSION}}
+ #           - podman run -d --rm --name smarthome-endpoint --network host -e smarthome.wakeup.endpoints='HEARTOFGOLD=08:BF:B8:01:33:17,IMAC=10:DD:B1:BD:FE:C2' -e smarthome.homelab.ilopwd='{{.ILOPWD}}' domenicopiol/smarthome-endpoint:{{.IMAGE_VERSION}}
+            - podman compose -f compose.yaml down
             - echo
-            - podman ps
+            - podman ps -a
         silent: true
     
     cleanall:
